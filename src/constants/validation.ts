@@ -1,0 +1,15 @@
+export const VALIDATION_RULES = {
+  MIN_WEIGHT: 0.01,
+  MAX_WEIGHT: 999999.99,
+  MIN_RATE: 0.01,
+  MAX_RATE: 9999.99,
+  PHONE_REGEX: /^\+?[0-9\s-()]{8,}$/,
+  MAX_LENGTH: {
+    DESCRIPTION: 100,
+    OFFICER_NAME: 50,
+    DESIGNATION: 50,
+    PHONE: 20,
+    POD_NUMBER: 20,
+    INVOICE_NUMBER: 20
+  }
+} as const;
