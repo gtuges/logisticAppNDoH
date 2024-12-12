@@ -1,11 +1,7 @@
 import React from 'react';
 import { TabList, Tab } from '../../../common/Tabs';
 import { TABS, TabId } from '../../constants';
-
-interface TabHeaderProps {
-  selectedTab: TabId;
-  onTabChange: (index: TabId) => void;
-}
+import { TabHeaderProps } from './types';
 
 const TabHeader: React.FC<TabHeaderProps> = ({ selectedTab, onTabChange }) => {
   return (

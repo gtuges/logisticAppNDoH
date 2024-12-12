@@ -1,7 +1,7 @@
 export const ROUTES = {
   DASHBOARD: '/dashboard',
   BATCHES: '/batches',
-  DELIVERIES: '/dispatches',
+  DISPATCHES: '/dispatches',
   SETTINGS: {
     FACILITIES: '/settings/facilities',
     FACILITY_TYPES: '/settings/facility-types',

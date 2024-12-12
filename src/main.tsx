@@ -1,32 +1,39 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Toaster } from 'react-hot-toast';
-import App from './App.tsx';
+import App from './App';
 import './index.css';
-import './styles/form.css';
-import './styles/toast.css';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-    <Toaster
-      position="top-right"
-      toastOptions={{
-        duration: 4000,
-        className: 'toast',
-        success: {
-          className: 'toast toast-success',
-        },
-        error: {
-          className: 'toast toast-error',
-        },
-        warning: {
-          className: 'toast toast-warning',
-        },
-        info: {
-          className: 'toast toast-info',
-        },
-      }}
-    />
-  </StrictMode>
-);
+const root = document.getElementById('root');
+
+if (root) {
+  createRoot(root).render(
+    <StrictMode>
+      <App />
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+            padding: '16px',
+            borderRadius: '8px',
+          },
+          success: {
+            iconTheme: {
+              primary: '#10B981',
+              secondary: '#fff',
+            }
+          },
+          error: {
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: '#fff',
+            }
+          }
+        }}
+      />
+    </StrictMode>
+  );
+}

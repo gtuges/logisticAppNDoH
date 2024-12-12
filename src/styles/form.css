@@ -2,19 +2,55 @@
 .form-input,
 .form-select,
 .form-textarea {
-  @apply mt-1.5 block w-full rounded-lg border-gray-300 shadow-sm transition-colors
-    focus:border-blue-500 focus:ring-blue-500;
+  @apply block w-full transition-colors;
+  border: 1px solid #BBCDD2;
+  border-radius: 0.5rem;
   padding: 0.625rem 1rem;
+  background-color: white;
+}
+
+.form-input:hover,
+.form-select:hover,
+.form-textarea:hover {
+  border-color: #A6BBC2;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  @apply outline-none ring-2 ring-offset-2;
+  border-color: #A6BBC2;
+  ring-color: rgba(187, 205, 210, 0.2);
 }
 
 .form-select {
   @apply pr-10;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23BBCDD2' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
 }
 
 .form-textarea {
   @apply min-h-[100px] resize-y;
 }
 
+/* Disabled state */
+.form-input:disabled,
+.form-select:disabled,
+.form-textarea:disabled {
+  @apply bg-gray-50 text-gray-500 cursor-not-allowed;
+  border-color: #d1d5db;
+}
+
+/* Error state */
+.form-input.error,
+.form-select.error,
+.form-textarea.error {
+  @apply border-red-500;
+}
+
+/* Form Groups */
 .form-group {
   @apply space-y-5 mb-5;
 }
@@ -29,10 +65,6 @@
 
 .form-row-3 {
   @apply grid grid-cols-1 md:grid-cols-3 gap-5;
-}
-
-.form-actions {
-  @apply flex justify-end space-x-3 pt-6 mt-6 border-t border-gray-200;
 }
 
 /* Form Labels */
@@ -55,41 +87,72 @@
   @apply mt-2 text-sm text-red-600;
 }
 
-/* Input padding and spacing */
-input[type="text"],
-input[type="number"],
-input[type="email"],
-input[type="password"],
-input[type="date"],
-select,
-textarea {
-  @apply px-4 py-2.5 rounded-lg border-gray-300 shadow-sm
-    focus:border-blue-500 focus:ring-blue-500 
-    disabled:bg-gray-50 disabled:text-gray-500;
+/* Search Input Specific */
+.search-input {
+  @apply pl-4 pr-10;
+  border-color: #BBCDD2;
 }
 
-/* Form field spacing */
-.form-field {
-  @apply mb-5;
+.search-input-icon {
+  @apply absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none;
+  color: #BBCDD2;
 }
 
-/* Form field label */
-.form-field label {
-  @apply block text-sm font-medium text-gray-700 mb-2;
+/* Form Actions */
+.form-actions {
+  @apply flex justify-end space-x-3 pt-6 mt-6 border-t border-gray-200;
 }
 
-/* Form field help text */
-.form-field .help-text {
-  @apply mt-2 text-sm text-gray-500;
+/* Checkbox and Radio */
+.form-checkbox,
+.form-radio {
+  @apply rounded border-[#BBCDD2] text-[#BBCDD2] focus:ring-[#BBCDD2];
+  width: 1rem;
+  height: 1rem;
 }
 
-/* Form field error state */
-.form-field.error input,
-.form-field.error select,
-.form-field.error textarea {
-  @apply border-red-300 focus:border-red-500 focus:ring-red-500;
+.form-radio {
+  @apply rounded-full;
 }
 
-.form-field.error .error-message {
-  @apply mt-2 text-sm text-red-600;
+/* Input Groups */
+.input-group {
+  @apply relative flex items-center;
+}
+
+.input-group .form-input {
+  @apply flex-1;
+}
+
+.input-group-text {
+  @apply px-3 py-2 text-gray-500 bg-gray-50 border border-[#BBCDD2] rounded-lg;
+}
+
+.input-group > :first-child {
+  @apply rounded-r-none;
+}
+
+.input-group > :last-child {
+  @apply rounded-l-none;
+}
+
+/* Date Input */
+input[type="date"].form-input {
+  @apply appearance-none;
+}
+
+/* Number Input */
+input[type="number"].form-input {
+  @apply appearance-none;
+}
+
+/* Remove spinner buttons */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }

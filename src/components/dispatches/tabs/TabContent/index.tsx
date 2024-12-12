@@ -1,12 +1,9 @@
 import React from 'react';
 import { TabId } from '../../constants';
-import ReceiptPanel from './ReceiptPanel';
-import InvoicePanel from './InvoicePanel';
-import AttachmentsPanel from '../../attachments/AttachmentsPanel';
-
-interface TabContentProps {
-  selectedTab: TabId;
-}
+import { TabContentProps } from './types';
+import ReceiptPanel from './panels/ReceiptPanel';
+import InvoicePanel from './panels/InvoicePanel';
+import AttachmentsPanel from './panels/AttachmentsPanel';
 
 const TabContent: React.FC<TabContentProps> = ({ selectedTab }) => {
   return (

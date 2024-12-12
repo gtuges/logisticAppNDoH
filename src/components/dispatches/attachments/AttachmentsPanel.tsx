@@ -13,7 +13,6 @@ const AttachmentsPanel: React.FC = () => {
   const [attachments, setAttachments] = useState<Attachment[]>([]);
 
   const handleUpload = (data: AttachmentFormData) => {
-    // In a real application, you would upload the file to a server here
     const newAttachment: Attachment = {
       id: Date.now().toString(),
       fileName: data.file.name,
@@ -22,7 +21,7 @@ const AttachmentsPanel: React.FC = () => {
       uploadDate: new Date().toISOString(),
       description: data.description,
       category: data.category,
-      url: URL.createObjectURL(data.file) // Temporary URL for demo
+      url: URL.createObjectURL(data.file)
     };
 
     setAttachments(prev => [...prev, newAttachment]);
@@ -33,7 +32,7 @@ const AttachmentsPanel: React.FC = () => {
   const handleDelete = (attachment: Attachment) => {
     if (window.confirm('Are you sure you want to delete this file?')) {
       setAttachments(prev => prev.filter(a => a.id !== attachment.id));
-      URL.revokeObjectURL(attachment.url); // Clean up temporary URL
+      URL.revokeObjectURL(attachment.url);
       toast.success('File deleted successfully');
     }
   };

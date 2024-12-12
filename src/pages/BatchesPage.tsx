@@ -6,20 +6,33 @@ import Modal from '../components/common/Modal';
 import BatchList from '../components/batches/BatchList';
 import BatchForm from '../components/batches/BatchForm';
 import RegionSelector from '../components/batches/RegionSelector';
+import LogisticsCompanySelector from '../components/batches/LogisticsCompanySelector';
+import { useLogisticsCompanies } from '../hooks/useLogisticsCompanies';
 import useBatches from '../hooks/useBatches';
 import { useBatchContext } from '../contexts/BatchContext';
-import { Batch, RegionName } from '../types';
+import { Batch } from '../types';
 
 const BatchesPage = () => {
   const { batches, addBatch, updateBatch, deleteBatch } = useBatches();
   const { activeBatch, setActiveBatch } = useBatchContext();
-  const [selectedRegion, setSelectedRegion] = useState<RegionName | null>(null);
+  const {
+    selectedRegion,
+    selectedCompany,
+    availableCompanies,
+    handleRegionSelect,
+    handleCompanySelect
+  } = useLogisticsCompanies();
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBatch, setSelectedBatch] = useState<Batch | null>(null);
 
   const handleAdd = () => {
     if (!selectedRegion) {
       toast.error('Please select a region first');
+      return;
+    }
+    if (!selectedCompany) {
+      toast.error('Please select a logistics company first');
       return;
     }
     setSelectedBatch(null);
@@ -36,7 +49,11 @@ const BatchesPage = () => {
       updateBatch(selectedBatch.id, data);
       toast.success('Batch updated successfully');
     } else {
-      addBatch({ ...data, region: selectedRegion! });
+      addBatch({
+        ...data,
+        region: selectedRegion!,
+        logisticsCompany: selectedCompany!.name
+      });
       toast.success('Batch created successfully');
     }
     setIsModalOpen(false);
@@ -56,9 +73,11 @@ const BatchesPage = () => {
     setActiveBatch(activeBatch?.id === batch.id ? null : batch);
   };
 
-  const filteredBatches = selectedRegion
-    ? batches.filter(batch => batch.region === selectedRegion)
-    : batches;
+  // Filter batches based on selected region and logistics company
+  const filteredBatches = batches.filter(batch => 
+    (!selectedRegion || batch.region === selectedRegion) &&
+    (!selectedCompany || batch.logisticsCompany === selectedCompany.name)
+  );
 
   return (
     <div className="p-6">
@@ -70,31 +89,48 @@ const BatchesPage = () => {
         <Button 
           icon={Plus} 
           onClick={handleAdd}
-          disabled={!selectedRegion}
+          disabled={!selectedRegion || !selectedCompany}
         >
           Create Batch
         </Button>
       </div>
 
-      <RegionSelector
-        selectedRegion={selectedRegion}
-        onRegionSelect={setSelectedRegion}
-      />
-
-      {activeBatch && (
-        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-          <h2 className="text-green-800 font-medium">Active Batch</h2>
-          <p className="text-green-600">Currently working with batch: {activeBatch.name}</p>
+      <div className="grid grid-cols-12 gap-6">
+        <div className="col-span-12 lg:col-span-4">
+          {/* Region and Logistics Company Selection */}
+          <RegionSelector
+            selectedRegion={selectedRegion}
+            onRegionSelect={handleRegionSelect}
+          />
+          
+          {selectedRegion && (
+            <LogisticsCompanySelector
+              companies={availableCompanies}
+              selectedCompany={selectedCompany}
+              onCompanySelect={handleCompanySelect}
+            />
+          )}
         </div>
-      )}
 
-      <BatchList
-        batches={filteredBatches}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onSelect={handleBatchSelect}
-        activeBatchId={activeBatch?.id}
-      />
+        <div className="col-span-12 lg:col-span-8">
+          {/* Active Batch Indicator */}
+          {activeBatch && (
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+              <h2 className="text-green-800 font-medium">Active Batch</h2>
+              <p className="text-green-600">Currently working with batch: {activeBatch.name}</p>
+            </div>
+          )}
+
+          {/* Batch List */}
+          <BatchList
+            batches={filteredBatches}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onSelect={handleBatchSelect}
+            activeBatchId={activeBatch?.id}
+          />
+        </div>
+      </div>
 
       <Modal
         isOpen={isModalOpen}

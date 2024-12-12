@@ -1,20 +1,16 @@
 import React from 'react';
 import { TabList, Tab } from '../../common/Tabs';
+import { TABS, TabId } from '../constants';
 
 interface TabHeaderProps {
-  selectedTab: number;
-  onTabChange: (index: number) => void;
+  selectedTab: TabId;
+  onTabChange: (index: TabId) => void;
 }
 
 const TabHeader: React.FC<TabHeaderProps> = ({ selectedTab, onTabChange }) => {
-  const tabs = [
-    { id: 0, label: 'Receipt Details' },
-    { id: 1, label: 'Invoice Details' }
-  ];
-
   return (
     <TabList>
-      {tabs.map(tab => (
+      {TABS.map(tab => (
         <Tab
           key={tab.id}
           selected={selectedTab === tab.id}
